@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 
 import br.com.alura.loja.modelo.Produto;
 
+// Class de teste para cadastrar entidades
 public class CadastroDeProduto {
 
 	public static void main(String[] args) {
