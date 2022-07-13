@@ -6,8 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "categorias")
+@Entity // Anotação de entidade
+@Table(name = "categorias") // Apilido para a tabela no banco de dados
 public class Categoria {
 
 	@Id
@@ -18,6 +18,7 @@ public class Categoria {
 	public Categoria() {
 	}
 
+	// Construtor padrão para a categoria.
 	public Categoria(String nome) {
 		this.nome = nome;
 	}
