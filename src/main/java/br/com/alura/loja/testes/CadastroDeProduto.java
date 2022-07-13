@@ -39,12 +39,39 @@ public class CadastroDeProduto {
 		// inicia a transação
 		em.getTransaction().begin();
 
+		// da o persiste no na classe
 		categoriaDao.cadastrar(celulares);
 		produtoDao.cadastrar(celular);
+
+		// podemos atualizar antes de dar commit
+		celular.setDescricao("CELULARES");
 
 		// comita no banco de dadaos os dados
 		em.getTransaction().commit();
 		em.close();
+
+//		celulares = em.merge(celulares);
+//		em.flush();//Isso aqui insere no banco de dados porem não comitar
+
+//		EntityManager emTeste = JPAUtil.getEntityManager();
+//		em.getTransaction().begin();
+//
+//		emTeste.persist(celulares);
+//		celulares.setNome("XPTO");
+//
+//		emTeste.flush();
+//		emTeste.clear();
+//
+//		// sempre tem que reatribuir para recuperar a entidade antiga
+//		celulares = em.merge(celulares);
+//		celulares.setNome("1234");
+//		emTeste.flush();
+//
+//		emTeste.clear();
+//		celulares = em.merge(celulares);
+//		em.remove(celulares);
+//		em.flush();
+
 	}
 
 }

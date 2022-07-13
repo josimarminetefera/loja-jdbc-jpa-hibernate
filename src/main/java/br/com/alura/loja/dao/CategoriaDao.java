@@ -17,6 +17,8 @@ public class CategoriaDao {
 	}
 
 	public void atualizar(Categoria categoria) {
+		//merge não é para atualizar
+		//merge é para caso objeto da entidade esteja detached ele pegue ela e consiga manipular os seus dados;
 		this.em.merge(categoria);
 	}
 
