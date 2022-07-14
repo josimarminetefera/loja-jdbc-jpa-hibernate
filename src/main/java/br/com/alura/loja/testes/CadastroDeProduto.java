@@ -15,11 +15,15 @@ public class CadastroDeProduto {
 
 	public static void main(String[] args) {
 		cadastrarProduto();
+		cadastrarProduto();
 		EntityManager em = JPAUtil.getEntityManager();
 		ProdutoDao produtoDao = new ProdutoDao(em);
 
 		Produto p = produtoDao.buscarPorId(1l);
 		System.out.println(p.getPreco());
+		
+		List<Produto> todosProdutos = produtoDao.buscarTodos();
+		todosProdutos.forEach(p3 -> System.out.println(p.getNome()));
 
 		List<Produto> todos = produtoDao.buscarPorNomeDaCategoria("CELULARES");
 		todos.forEach(p2 -> System.out.println(p.getNome()));
