@@ -36,8 +36,10 @@ public class Pedido {
 	private Cliente cliente;
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL) // um para muitos itens
-	// mappedBy = para indicar para não criar uma nova tabela de relacionamento alem da ItemPedido
-	// cascade = inserir item_pedido em pedidos novos para não precisar de um novo ItemPedidoDao
+	// mappedBy = para indicar para não criar uma nova tabela de relacionamento alem
+	// da ItemPedido
+	// cascade = inserir item_pedido em pedidos novos para não precisar de um novo
+	// ItemPedidoDao
 	// isso aqui é um relacionamento bidirecional e tem que indicar para não ser um
 	// novo relacionamento
 	private List<ItemPedido> itens = new ArrayList<ItemPedido>();
