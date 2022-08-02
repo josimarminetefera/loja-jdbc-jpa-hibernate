@@ -2,6 +2,7 @@ package br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ public class ItemPedido {
 	@Id // Identificador do identificar do banco de dados
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // banco de daddos que vai gerar o proximo id
 	private Long id;
+	@Column(name = "valor_total")
 	private BigDecimal precoUnitario;
 	private int quantidade;
 
