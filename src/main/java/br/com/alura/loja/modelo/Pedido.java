@@ -27,7 +27,7 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // banco de daddos que vai gerar o proximo id
 	private Long id;
 	@Column(name = "valor_total")
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 	private LocalDate data = LocalDate.now();
 
 	// @Enumerated(EnumType.STRING)
@@ -55,6 +55,7 @@ public class Pedido {
 	public void adicionarItem(ItemPedido item) {
 		item.setPedido(this);
 		this.itens.add(item);
+		this.valorTotal = this.valorTotal.add(item.getValor());
 	}
 
 	public Long getId() {
