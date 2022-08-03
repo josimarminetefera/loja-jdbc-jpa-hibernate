@@ -15,6 +15,7 @@ import br.com.alura.loja.modelo.ItemPedido;
 import br.com.alura.loja.modelo.Pedido;
 import br.com.alura.loja.modelo.Produto;
 import br.com.alura.loja.util.JPAUtil;
+import br.com.alura.loja.vo.RelatorioDeVendasVo;
 
 public class CadastroDePedido {
 
@@ -26,6 +27,8 @@ public class CadastroDePedido {
 		ProdutoDao produtoDao = new ProdutoDao(em);
 		System.out.println("Iniciando a busca do produto");
 		Produto produto = produtoDao.buscarPorId(1l);
+		Produto produto2 = produtoDao.buscarPorId(2l);
+		Produto produto3 = produtoDao.buscarPorId(3l);
 
 		// buscar o cliente
 		ClienteDao clienteDao = new ClienteDao(em);
@@ -38,15 +41,19 @@ public class CadastroDePedido {
 
 		// criar pedido para o cliente
 		Pedido pedido = new Pedido(cliente);
+		Pedido pedido2 = new Pedido(cliente);
 
 		System.out.println("Inserir o pedido");
 
 		// adicionar o tem ao pedido
 		pedido.adicionarItem(new ItemPedido(10, pedido, produto));
+		pedido.adicionarItem(new ItemPedido(40, pedido, produto2));
+		pedido.adicionarItem(new ItemPedido(2, pedido2, produto3));
 
 		// salvar o pedido no banco de dados
 		PedidoDao pedidoDao = new PedidoDao(em);
 		pedidoDao.cadastrar(pedido);
+		pedidoDao.cadastrar(pedido2);
 
 		// commitar a transação
 		em.getTransaction().commit();
@@ -55,17 +62,19 @@ public class CadastroDePedido {
 		BigDecimal totalVendido = pedidoDao.valorTotalVendido();
 		System.out.println("totalVendido: " + totalVendido);
 
-		List<Object[]> relatorioDeVendas = pedidoDao.relatorioDeVendas();
-
-		for (Object[] obj : relatorioDeVendas) {
-			System.out.println(obj[0] + "|" + obj[1] + "|" + obj[2]);
-		}
+		List<RelatorioDeVendasVo> relatorioDeVendas = pedidoDao.relatorioDeVendas();
+		relatorioDeVendas.forEach(System.out::println);
 
 	}
 
 	private static void cadastrarProduto() {
 		Categoria celulares = new Categoria("CELULARES");
+		Categoria videogames = new Categoria("VIDEOGAMES");
+		Categoria informatica = new Categoria("INFORMATICA");
+		
 		Produto celular = new Produto("Xiaomi Redmi", "Muito legal", new BigDecimal("800"), celulares);
+		Produto videogame = new Produto("PS5", "Playstation 5", new BigDecimal("8000"), videogames);
+		Produto mac = new Produto("MacBosta", "Merda", new BigDecimal("10000"), informatica);
 
 		EntityManager em = JPAUtil.getEntityManager();
 		ProdutoDao produtoDao = new ProdutoDao(em);
@@ -82,6 +91,10 @@ public class CadastroDePedido {
 		// da o persiste no na classe
 		categoriaDao.cadastrar(celulares);
 		produtoDao.cadastrar(celular);
+		categoriaDao.cadastrar(informatica);
+		produtoDao.cadastrar(mac);
+		categoriaDao.cadastrar(videogames);
+		produtoDao.cadastrar(videogame);
 
 		// podemos atualizar antes de dar commit
 		celular.setDescricao("CELULARES");
