@@ -17,7 +17,7 @@ public class ClienteDao {
 	public void cadastrar(Cliente cliente) {
 		this.em.persist(cliente);
 	}
-	
+
 	public Cliente buscarPorId(Long id) {
 		// qual a entidade e qual o id
 		System.out.println("buscarPorId");

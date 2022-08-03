@@ -16,7 +16,7 @@ public class ItemPedido {
 	@Id // Identificador do identificar do banco de dados
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // banco de daddos que vai gerar o proximo id
 	private Long id;
-	@Column(name = "valor_total")
+	@Column(name = "preco_unitario")
 	private BigDecimal precoUnitario;
 	private int quantidade;
 
