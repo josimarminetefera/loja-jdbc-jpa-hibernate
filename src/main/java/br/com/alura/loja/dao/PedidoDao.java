@@ -42,6 +42,8 @@ public class PedidoDao {
 	}
 
 	public Pedido buscarPedidoComCliente(Long id) {
+		//query planejada = carregar tudo que eu precisar
+		//FETCH para conseguir acessar o relacionamento lazy mesmo depois de dar close no EntityManager
 		return em.createQuery("SELECT p FROM Pedido p JOIN FETCH p.cliente WHERE p.id = :id", Pedido.class)
 				.setParameter("id", id)
 				.getSingleResult();

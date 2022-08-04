@@ -20,14 +20,23 @@ public class PerformanceConsultas {
 	public static void main(String[] args) {
 		popularBancoDeDados();
 		EntityManager em = JPAUtil.getEntityManager();
-		
-		//toOne faz o carregamento antecipado junto com a entidade
-		//toMany só carrega depois ou quando precisa
-		
-		
+
+		// toOne faz o carregamento antecipado junto com a entidade
+		// toMany só carrega depois ou quando precisa
+
+		Pedido pedidoFormaErrada = em.find(Pedido.class, 1l);
+		System.out.println("Iniciando uma consulta");
+		System.out.println(pedidoFormaErrada);
+		System.out.println(pedidoFormaErrada.getCliente().getNome());
+		// em.close();
+		// se o EntityManager for close e o relacionamento é lazy não tem como acessar
+		// se voce precisa acessar algo como lazy já tras esta informação junto por isso
+		// deve ser feito o buscarPedidoComCliente
+
 		PedidoDao pedidoDao = new PedidoDao(em);
 		Pedido pedido = pedidoDao.buscarPedidoComCliente(1l);
-		em.close();
+		em.close();// aqui mesmo que o EntityManager esteja finalizado ainda sim da para pegar os
+					// dados de cliente
 		System.out.println(pedido.getCliente().getNome());
 	}
 
