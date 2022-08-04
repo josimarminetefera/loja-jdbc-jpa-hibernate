@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,11 +31,14 @@ public class Pedido {
 	private BigDecimal valorTotal = BigDecimal.ZERO;
 	private LocalDate data = LocalDate.now();
 
+	// @ToOne sempre vai adicionar o relacionamento de join nas consultas
 	// @Enumerated(EnumType.STRING)
-	@ManyToOne // Cardinalidade do relacionamento (Muitos para Um) Muitos produtos para apenas
-				// uma categoria
+	@ManyToOne(fetch = FetchType.LAZY) // Cardinalidade do relacionamento (Muitos para Um) Muitos produtos para apenas
+	// uma categoria
+	// para mudar a forma de carregar se for feito acesso
 	private Cliente cliente;
 
+	// @ToMany não é carregado automaticamento no select com join só se voce forçar
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL) // um para muitos itens
 	// mappedBy = para indicar para não criar uma nova tabela de relacionamento alem
 	// da ItemPedido
@@ -88,6 +92,14 @@ public class Pedido {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 }

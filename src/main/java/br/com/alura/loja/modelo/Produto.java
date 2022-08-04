@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ public class Produto {
 	private LocalDate dataCadastro = LocalDate.now();
 
 	// @Enumerated(EnumType.STRING)
-	@ManyToOne // Cardinalidade do relacionamento (Muitos para Um) Muitos produtos para apenas
+	@ManyToOne(fetch = FetchType.LAZY) // Cardinalidade do relacionamento (Muitos para Um) Muitos produtos para apenas
 				// uma categoria
 	private Categoria categoria;
 
