@@ -6,6 +6,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import br.com.alura.loja.modelo.Produto;
 
@@ -72,15 +76,15 @@ public class ProdutoDao {
 		String jpql = "SELECT p FROM Produto p WHERE 1=1 ";
 		// tem que verificar cada um dos parametros para adicionar o and específico
 		if (nome != null && !nome.trim().isEmpty()) {
-			jpql = " AND p.nome = :nome ";
+			jpql += " AND p.nome = :nome ";
 		}
 		if (preco != null) {
-			jpql = " AND p.preco = :preco ";
+			jpql += " AND p.preco = :preco ";
 		}
 		if (dataCadastro != null) {
-			jpql = " AND p.dataCadastro = :dataCadastro ";
+			jpql += " AND p.dataCadastro = :dataCadastro ";
 		}
-		
+
 		TypedQuery<Produto> query = em.createQuery(jpql, Produto.class);
 		// tem que criar validação também para passar parametros
 		if (nome != null && !nome.trim().isEmpty()) {
@@ -94,6 +98,33 @@ public class ProdutoDao {
 		}
 
 		return query.getResultList();
+	}
+
+	// Este método faz consulta usando objetos sem nenhuma linha de select
+	public List<Produto> buscarPorParametrosComCriteria(String nome, BigDecimal preco, LocalDate dataCadastro) {
+
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		// adiciona a classe de criterio
+		CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
+		// de onde ele vai disparar para quem from = Produto
+		Root<Produto> from = query.from(Produto.class);
+
+		// para filtrar os parametros tem que adicionar os filtros
+		Predicate filtros = builder.and();// este é o objeto que vai adicionando os parametros do and
+		if (nome != null && !nome.trim().isEmpty()) {
+			// builder.and passando o paramtro
+			filtros = builder.and(filtros, builder.equal(from.get("nome"), nome));
+		}
+		if (preco != null) {
+			filtros = builder.and(filtros, builder.equal(from.get("preco"), preco));
+		}
+		if (dataCadastro != null) {
+			filtros = builder.and(filtros, builder.equal(from.get("dataCadastro"), dataCadastro));
+		}
+		query.where(filtros);
+
+		// para disparar a query
+		return em.createQuery(query).getResultList();
 	}
 
 }

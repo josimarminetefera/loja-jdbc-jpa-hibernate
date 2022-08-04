@@ -39,6 +39,7 @@ public class PerformanceConsultas {
 		em.close();// aqui mesmo que o EntityManager esteja finalizado ainda sim da para pegar os
 					// dados de cliente
 		System.out.println(pedido.getCliente().getNome());
+		
 	}
 
 	private static void popularBancoDeDados() {
