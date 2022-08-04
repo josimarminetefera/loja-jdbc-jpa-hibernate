@@ -25,9 +25,10 @@ public class PerformanceConsultas {
 		// toMany só carrega depois ou quando precisa
 
 		Pedido pedidoFormaErrada = em.find(Pedido.class, 1l);
-		System.out.println("Iniciando uma consulta");
+		System.out.println("Iniciando uma consulta com o find");
 		System.out.println(pedidoFormaErrada);
 		System.out.println(pedidoFormaErrada.getCliente().getNome());
+
 		// em.close();
 		// se o EntityManager for close e o relacionamento é lazy não tem como acessar
 		// se voce precisa acessar algo como lazy já tras esta informação junto por isso

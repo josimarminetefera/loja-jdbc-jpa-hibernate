@@ -1,9 +1,11 @@
 package br.com.alura.loja.dao;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import br.com.alura.loja.modelo.Produto;
 
@@ -50,10 +52,12 @@ public class ProdutoDao {
 
 	public List<Produto> buscarPorNomeDaCategoria(String nome) {
 		System.out.println("buscarPorNomeDaCategoria");
-		//String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome";
-		//return em.createQuery(jpql, Produto.class).setParameter("nome", nome).getResultList();
-		//usando namedquery com o model
-		return em.createNamedQuery("Produto.produtosPorCategoria", Produto.class).setParameter("nome", nome).getResultList();
+		// String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome";
+		// return em.createQuery(jpql, Produto.class).setParameter("nome",
+		// nome).getResultList();
+		// usando namedquery com o model
+		return em.createNamedQuery("Produto.produtosPorCategoria", Produto.class).setParameter("nome", nome)
+				.getResultList();
 	}
 
 	public BigDecimal buscarPrecoDoProdutoComNome(String nome) {
@@ -61,6 +65,35 @@ public class ProdutoDao {
 		System.out.println("buscarPrecoDoProdutoComNome");
 		String jpql = "SELECT p.preco FROM Produto p WHERE p.nome = :nome";
 		return em.createQuery(jpql, BigDecimal.class).setParameter("nome", nome).getSingleResult();
+	}
+
+	// Este metodo de consulta vem com parametros opcionais
+	public List<Produto> buscarPorParametros(String nome, BigDecimal preco, LocalDate dataCadastro) {
+		String jpql = "SELECT p FROM Produto p WHERE 1=1 ";
+		// tem que verificar cada um dos parametros para adicionar o and específico
+		if (nome != null && !nome.trim().isEmpty()) {
+			jpql = " AND p.nome = :nome ";
+		}
+		if (preco != null) {
+			jpql = " AND p.preco = :preco ";
+		}
+		if (dataCadastro != null) {
+			jpql = " AND p.dataCadastro = :dataCadastro ";
+		}
+		
+		TypedQuery<Produto> query = em.createQuery(jpql, Produto.class);
+		// tem que criar validação também para passar parametros
+		if (nome != null && !nome.trim().isEmpty()) {
+			query.setParameter("nome", nome);
+		}
+		if (preco != null) {
+			query.setParameter("preco", preco);
+		}
+		if (dataCadastro != null) {
+			query.setParameter("dataCadastro", dataCadastro);
+		}
+
+		return query.getResultList();
 	}
 
 }
