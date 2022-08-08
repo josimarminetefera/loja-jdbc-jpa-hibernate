@@ -10,6 +10,10 @@ import javax.persistence.Table;
 @Table(name = "categorias") // Apilido para a tabela no banco de dados
 public class Categoria {
 
+	// isso aqui é para esternar a geração do id caso queira juntar paramtros
+	// @EmbeddedId
+	// private CategoriaId id;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

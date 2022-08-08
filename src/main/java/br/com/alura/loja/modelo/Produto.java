@@ -10,14 +10,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "produtos")
-@NamedQuery(name = "Produto.produtosPorCategoria" ,  
-query = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome")
+@NamedQuery(name = "Produto.produtosPorCategoria", query = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // para usar com herança sem join uma string gigante
+@Inheritance(strategy = InheritanceType.JOINED) // para usar com herança e fazer inner join
 public class Produto {
 
 	@Id // Identificador do identificar do banco de dados
@@ -30,7 +33,7 @@ public class Produto {
 
 	// @Enumerated(EnumType.STRING)
 	@ManyToOne(fetch = FetchType.LAZY) // Cardinalidade do relacionamento (Muitos para Um) Muitos produtos para apenas
-				// uma categoria
+	// uma categoria
 	private Categoria categoria;
 
 	@Enumerated(EnumType.STRING)
